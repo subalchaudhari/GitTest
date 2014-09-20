@@ -1,0 +1,13 @@
+@(priceForm: Form[forms.PriceForm])
+
+@import helper._
+
+
+@main() {
+
+	@views.html.common.errormsg(priceForm.globalErrors())	
+	
+	@form(action = routes.PriceController.create_save()) {
+		@price.form(priceForm,Messages("price.create"))
+	}
+}

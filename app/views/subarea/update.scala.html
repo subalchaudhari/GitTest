@@ -1,0 +1,13 @@
+@(subareaForm: Form[forms.SubAreaForm],id: Long)
+
+@import helper._
+
+
+@main() {
+
+	@views.html.common.errormsg(subareaForm.globalErrors())	
+	
+	@form(action = routes.SubAreaController.update_save(id)) {
+		@subarea.form(subareaForm,Messages("subarea.update"))
+	}
+}

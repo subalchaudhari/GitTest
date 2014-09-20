@@ -1,0 +1,24 @@
+@(amplyForm: Form[forms.AmplyForm],title: String)
+
+@import helper._
+
+<table class="table">
+    <thead>
+    	<tr><th>@title</th></tr>
+    </thead>	
+    <tbody>	
+    <tr>	    	
+    	<td>
+		@select(field=amplyForm("areaid"), options(models.Area.asMap), args= '_label -> Messages("area"),'_showConstraints -> false)
+		</td>
+	</tr><tr><td>
+		@inputText(field=amplyForm("name"), args = 'class -> "input-large", 'placeholder -> Messages("amplifier.name"), '_label -> Messages("amplifier.name"),'_showConstraints -> false)		
+		</td>
+    </tr>
+    </tbody>
+    <tfoot>
+	<tr>
+    	<td><button type="submit" class="btn btn-primary">@Messages("common.button.save")</button></td> 	
+    </tr>	
+	</tfoot>
+</table>

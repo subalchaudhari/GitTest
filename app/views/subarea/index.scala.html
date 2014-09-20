@@ -1,0 +1,124 @@
+@main(){
+
+
+ <div class="subnav">
+    <ul class="nav nav-pills">      
+      <li class=""><a href="@routes.SubAreaController.create_new()" class="btn" id="subarea-add">
+      	@Messages("common.button.add")</a></li>
+      <li class=""><a href="#" link="@routes.SubAreaController.update_get(0L)" class="btn" id="subarea-edit">
+      	@Messages("common.button.edit")</a></li>
+      <li class=""><a href="#" link="@routes.SubAreaController.delete(0L)" class="btn" id="subarea-delete">
+      	@Messages("common.button.delete")</a></li>      
+    </ul>
+  </div>
+
+	
+  <br/>
+
+	<table id="subarea-grid"></table> 
+	<div id="subarea-pager"></div>
+
+	<script type="text/javascript">
+
+	$(function(){
+		process_subareas();
+
+		$("#subarea-edit").click(subarea_edit_click);
+		$("#subarea-delete").click(subarea_delete_click);
+
+	});
+
+	var process_subareas = function() {		
+  		$.ajax({
+			url: '/service/subareas',
+			processData:false,
+			type: 'GET',
+			beforeSend:function(jqXHR, settings){					
+				jqXHR.setRequestHeader("Content-Type", "application/json");					
+			},
+			success: function(data, textStatus, jqXHR){					
+				render_subareas(data);	
+			},
+			error: function(jqXHR, textStatus, errorThrown){				
+				//display_error_msg(errorThrown);	
+			},
+			complete: function(jqXHR,textStatus){					
+			}	
+		});
+	};
+
+	var render_subareas = function(subareas) {		
+		$("#subarea-grid").jqGrid('clearGridData');
+
+		if(subareas == undefined || subareas == null){
+			return;
+		}	
+	
+		$("#subarea-grid").jqGrid({
+			datatype: "local",
+		    colNames:['@Messages("common.srno")','@Messages("common.id")','@Messages("subarea.name")','@Messages("area.name")'],
+		    colModel:[
+		    	{name:'id',index:'id',hidden:true,sorttype:'int',width:'50px',key:true},
+		    	{name:'pk',index:'pk',hidden:true,sorttype:'int',width:'50px'},
+		    	{name:'name',index:'name'},
+		    	{name:'areaname',index:'areaname'}
+		    ],		   
+		    viewrecords: true,
+		    multiselect: false,
+		    caption: '@Messages("subarea.index")',		    
+		    height: 405,
+		    width: 900
+		});		
+
+		$.each(subareas,function(i,subarea){
+			subarea.pk=subarea.id;
+			subarea.id=i+1;
+			subarea.areaname=subarea.area.name;			
+			$("#subarea-grid").jqGrid('addRowData',i+1,subarea);	
+		});
+	};
+
+	var subarea_edit_click = function(){		
+		var id = $("#subarea-grid").jqGrid('getGridParam','selrow'); 
+		if (id) { 
+			var ret = $("#subarea-grid").jqGrid('getRowData',id); 			
+			var link=$(this).attr("link");
+			link=link.replace('0',ret.pk);
+			$(this).attr('href',link);
+		} else { 
+			alert('@Messages("please.select.row")');
+		} 		
+	};
+
+	var subarea_delete_click = function(){		
+		var id = $("#subarea-grid").jqGrid('getGridParam','selrow'); 
+		if (id) { 
+			var ret = $("#subarea-grid").jqGrid('getRowData',id); 			
+			var link=$(this).attr("link");
+			link=link.replace('0',ret.pk);			
+
+			$.ajax({
+				url: link,
+				processData:false,
+				type: 'GET',
+				beforeSend:function(jqXHR, settings){					
+					jqXHR.setRequestHeader("Content-Type", "application/json");					
+				},
+				success: function(data, textStatus, jqXHR){					
+					alert('@Messages("record.deleted.succ")');
+					process_subareas();
+				},
+				error: function(jqXHR, textStatus, errorThrown){				
+					alert("Error : " + jqXHR.responseText);
+				},
+				complete: function(jqXHR,textStatus){					
+				}	
+			});
+
+		} else { 
+			alert('@Messages("please.select.row")');
+		}
+	};
+
+	</script>
+}	

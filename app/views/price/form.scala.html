@@ -1,0 +1,20 @@
+@(priceForm: Form[forms.PriceForm],title: String)
+
+@import helper._
+
+<table class="table">
+    <thead>
+    	<tr><th>@title</th></tr>
+    </thead>	
+    <tbody>	
+    <tr>	    	
+    	<td>@inputText(field= priceForm("amount"), args='class->"input-large", '_label-> Messages("price.amount"), 'placeholder->Messages("price.amount"),'_showConstraints -> false)
+    	</td>
+    </tr>
+    </tbody>
+    <tfoot>
+	<tr>
+    	<td><button type="submit" class="btn btn-primary">@Messages("common.button.save")</button></td> 	
+    </tr>	
+	</tfoot>
+</table>

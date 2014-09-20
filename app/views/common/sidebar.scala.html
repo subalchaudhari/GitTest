@@ -1,0 +1,92 @@
+
+<ul class="nav nav-list">   
+    <li class="nav-header">@Messages("menu.header.invoice")</li>
+    <li lid="search/invoice">
+    	<a href="@routes.InvoiceController.search_get()">
+    		<i class="icon-cog"></i>@Messages("menu.search.invoice")</a>
+    </li>
+    <li lid="generate/invoice">
+    	<a href="@routes.InvoiceController.generate_get()">
+    		<i class="icon-cog"></i>@Messages("menu.generate.invoice")</a>
+    </li>    
+
+    <li class="divider"></li>	
+    <li class="nav-header">@Messages("menu.header.admin")</li>
+    <li lid="customer">
+    	<a href="@routes.CustomerController.index()">
+    		<i class="icon-star-empty"></i>@Messages("menu.customer")</a>
+    </li>
+    
+    <li lid="employee">
+    	<a href="@routes.EmployeeController.index()">
+    		<i class="icon-star-empty"></i>@Messages("menu.employee")</a>
+    </li>   
+	<li lid="area">
+		<a href="@routes.AreaController.index()">
+			<i class="icon-star-empty"></i>@Messages("menu.area")</a>
+	</li>
+	<li lid="subarea">
+		<a href="@routes.SubAreaController.index()">
+			<i class="icon-star-empty"></i>@Messages("menu.subarea")</a>
+	</li>
+	
+	<li lid="node">
+		<a href="@routes.NodeController.index()">
+			<i class="icon-star-empty"></i>@Messages("menu.node")</a>
+	</li>
+	<li lid="amply">
+		<a href="@routes.AmplyController.index()">
+			<i class="icon-star-empty"></i>@Messages("menu.amplifier")</a>
+	</li>
+	
+	<li lid="price">
+		<a href="@routes.PriceController.index()">
+			<i class="icon-star-empty"></i>@Messages("menu.price")</a>
+	</li>
+	<li lid="user">
+		<a href="@routes.UserController.index()">
+			<i class="icon-star-empty"></i>@Messages("menu.user")</a>
+	</li>
+
+	@if(session.get("role").toUpperCase()=="ADMIN"){
+	    <li class="divider"></li>
+	    <li class="nav-header">@Messages("menu.header.report")</li>
+	    <li lid="payment/report">
+	    	<a href="@routes.PaymentController.report()">
+	    		<i class="icon-cog"></i>@Messages("menu.payment.report")</a>
+	    </li>
+	    <li lid="invoice/report">
+	    	<a href="@routes.PaymentController.ireport()">
+	    		<i class="icon-cog"></i>@Messages("menu.invoice.report")</a>
+	    </li>	
+	    <li lid="payment/daily/report">
+	    	<a href="@routes.PaymentController.daily_report()">
+	    		<i class="icon-cog"></i>@Messages("menu.payment.daily.report")</a>
+	    </li>
+	    <li lid="payment/sa/daily/report">
+	    	<a href="@routes.PaymentController.daily_report_sa()">
+	    		<i class="icon-cog"></i>@Messages("menu.payment.daily.report.sa")</a>
+	    </li>	    
+    }
+
+    <li class="divider"></li>	
+    <li class="nav-header">@Messages("menu.header.profile")</li>
+	<li lid="change/passwd">
+		<a href="@routes.UserController.get_change_passwd()">
+			<i class="icon-star-empty"></i>@Messages("menu.change.password")</a>
+	</li>
+</ul>
+
+<script type="text/javascript">
+	$(function(){
+		var url=$(location).attr('href');
+		var links=$("li[lid]");
+		$("li.active").attr("class","");
+		$.each(links,function(i,liobject){
+			var linkid=$(this).attr("lid");
+			if(url.indexOf("/"+linkid)>=0){
+				$(liobject).attr("class","active");				
+			}
+		});			
+	});
+</script>

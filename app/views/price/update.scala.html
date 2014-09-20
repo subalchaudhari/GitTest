@@ -1,0 +1,13 @@
+@(priceForm: Form[forms.PriceForm],id: Long)
+
+@import helper._
+
+
+@main() {
+
+	@views.html.common.errormsg(priceForm.globalErrors())	
+	
+	@form(action = routes.PriceController.update_save(id)) {
+		@price.form(priceForm,Messages("price.update"))
+	}
+}

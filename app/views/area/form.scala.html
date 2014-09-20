@@ -1,0 +1,25 @@
+@(areaForm: Form[forms.AreaForm],title: String)
+
+@import helper._
+
+<table class="table">
+    <thead>
+    	<tr><th>@title</th></tr>
+    </thead>	
+    <tbody>	
+    <tr>            
+        <td>
+        @select(field=areaForm("employeeid"), options(models.Employee.asMap), args= '_label -> Messages("employee"),'_showConstraints -> false)
+        </td>
+    </tr>
+    <tr>	    	
+    	<td>@inputText(field=areaForm("name"), args = 'class -> "input-large", 'placeholder -> Messages("area.name"), '_label -> Messages("area.name"),'_showConstraints -> false)		
+    	</td>
+    </tr>
+    </tbody>
+    <tfoot>
+	<tr>
+    	<td><button type="submit" class="btn btn-primary">@Messages("common.button.save")</button></td> 	
+    </tr>	
+	</tfoot>
+</table>

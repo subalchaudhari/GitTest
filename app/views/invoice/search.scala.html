@@ -1,0 +1,56 @@
+@(invoiceSearchForm: Form[forms.InvoiceSearchForm],invoices: List[models.Invoice])
+
+@import helper._
+@import models._
+@import controllers._
+
+@main() {
+	
+	@views.html.common.errormsg(invoiceSearchForm.globalErrors())	
+
+	@form(action = routes.InvoiceController.search()) {
+		<table class="table">
+	    <thead>
+	    	<tr><th colspan="2">@Messages("search.invoice")</th></tr>
+	    </thead>	
+	    <tbody>	
+	    <tr>	    	
+	    	<td>@select(field=invoiceSearchForm("year"), options = options(InvoiceController.get_year_map), args= '_label -> Messages("year"))</td> 
+	    	<td>@select(field=invoiceSearchForm("month"), options = options(InvoiceController.get_month_map), args= '_label -> Messages("month"))</td>	    	
+	    </tr>	    
+		<tr>
+	    	<td>@select(field=invoiceSearchForm("areaid"), options = options(Area.asMap), args= '_label -> Messages("area"), '_default -> Messages("choose.area"))</td>
+	    	<td>@select(field=invoiceSearchForm("subareaid"), options = options(SubArea.asMapByAreaId(invoiceSearchForm("areaid").value)), args= '_label -> Messages("subarea"), '_default -> Messages("choose.subarea"))</td>	    	
+	    </tr>	    
+	    </tbody>
+	    <tfoot>
+		<tr>
+	    	<td colspan="2">
+	    		<button id="searchbtn" type="submit" class="btn btn-primary">
+	    			@Messages("common.button.search")</button>
+	    	</td> 	
+	    </tr>	
+		</tfoot>
+		</table>
+
+		<script type="text/javascript">
+		var on_area_change = function(event){
+			var form=$('form');
+			form.attr('action','@routes.InvoiceController.on_area_change()');
+			form.attr('method','POST');
+			form.trigger('submit');
+		};		
+
+		$(function(){
+			$("#areaid").change(on_area_change);		
+		});
+		</script>
+	}
+
+	@if(invoices!=null && !invoices.isEmpty()){
+		@searchresult(invoices,Messages("search.invoice.result"))	
+	}
+
+}
+
+   

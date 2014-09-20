@@ -1,0 +1,156 @@
+@(invoices: List[models.Invoice],title: String)
+
+@import helper._
+@import models._
+
+<div id="invoice_report">
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th colspan="8">@title - @{java.util.Calendar.getInstance().getTime()}</th>       
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <th>@Messages("month")</th><th id="monthth" colspan="2"></th><th>@Messages("year")</th><th id="yearth" colspan="3"></th>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <th>@Messages("area")</th><th id="areath" colspan="2"></th>
+            <th>@Messages("employee")</th><th id="employeeth" colspan="3"></th>
+        </tr>
+    	<tr>
+            <th>&nbsp;</th>
+            <th>@Messages("customer.id.number")</th>
+    		<th>@Messages("customer.name")</th>
+            <th>@Messages("subarea")</th>
+    		<th>@Messages("customer.address")</th>
+    		<th>@Messages("invoice.amount")</th>
+            <th>@Messages("is.paid")</th>
+    		<th>@Messages("customer.balance")</th>
+    	</tr>
+    </thead>	     
+    <tbody>	
+	    @for(invoice <- invoices) {	
+		    <tr>	    	
+                <td>
+                    @if(!invoice.paid){
+                        <input id="paymentchkbox" type="checkbox" value="@invoice.id"/>
+                    }else{
+                        &nbsp;
+                    }                    
+                </td>
+                <td>@invoice.getCustomerId()</td>
+		    	<td>@invoice.getCustomerName()</td> 
+                <td>@invoice.getSubAreaName()</td>
+		    	<td>@invoice.customer.address</td>	    	
+		    	<td>@invoice.amount</td> 
+                <td><input type="checkbox" @{if(invoice.paid) "checked" } disabled/></td>
+		    	<td>@invoice.customer.balance</td>
+		    </tr>	    
+		}
+ 	</tbody>	        
+</table>
+</div>
+
+<table class="table table-striped table-bordered table-condensed">
+    <tfoot>
+        <tr>
+            <td colspan="6">                
+                <button id="paymentbtn" type="button" class="btn btn-primary">
+                    @Messages("common.button.make.payment")</button>
+                <button id="printbtn" type="button" class="btn btn-primary">
+                    @Messages("common.button.print")</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+<script type="text/javascript">
+    var make_payment_on_click=function(){
+        // get values of all selected check boxes        
+        var customers=new Array();
+        $.each($("input#paymentchkbox:checked"),function(i,chkbox){            
+            var customer={};
+            customer.id=$(this).attr("value");
+            customers[i]=customer;                           
+        });
+
+        if(customers.length>0){            
+            post_payment(JSON.stringify(customers));            
+        }        
+    };
+
+    var post_payment = function(req_data) {     
+        $.ajax({
+            url: "@routes.PaymentController.payment()",
+            data: req_data,
+            processData:false,
+            type: "POST",
+            beforeSend:function(jqXHR, settings){                   
+                jqXHR.setRequestHeader("Content-Type", "application/json");                 
+            },
+            success: function(data, textStatus, jqXHR){                 
+                //
+            },
+            error: function(jqXHR, textStatus, errorThrown){                
+                //display_error_msg(errorThrown);   
+            },
+            complete: function(jqXHR,textStatus){                   
+                var searchbtn=$("#searchbtn");
+                if(searchbtn!=undefined){
+                    searchbtn.trigger("click");
+                }
+            }   
+        });
+    };
+
+    var view_search_invoice = function(){
+        var w=window.open();
+        w.document.open();
+        w.document.write($("head").html());
+        w.document.write("<style>body{background-image:none;margin:auto;font-size:10px;width:1280px} .container{width:1280px}</style>");
+        w.document.write('<div class="container"><div class="well">' + $("#invoice_report").html() + "</div></div>");
+        w.document.close();
+        w.print();        
+    };
+
+    var get_employee_name = function(){
+        var requrl='@routes.EmployeeController.get_by_area(0L)';
+        requrl=requrl.replace('0',$("#areaid").val());
+        $.ajax({
+            url: requrl,            
+            processData:false,
+            type: "GET",
+            beforeSend:function(jqXHR, settings){                   
+                jqXHR.setRequestHeader("Content-Type", "application/json");                 
+            },
+            success: function(data, textStatus, jqXHR){     
+                $("#employeeth").text(data.name);
+            },
+            error: function(jqXHR, textStatus, errorThrown){                
+               $("#employeeth").text("");
+            },
+            complete: function(jqXHR,textStatus){                   
+                // on complete                
+            }   
+        });
+
+        
+    };
+
+    $(function(){
+        $("#paymentbtn").click(make_payment_on_click);
+        $("#printbtn").click(view_search_invoice);
+
+        $("#monthth").text($("option[selected]","select#month").text());
+        $("#yearth").text($("option[selected]","select#year").text());
+        $("#areath").text($("option[selected]","select#areaid").text());        
+
+        get_employee_name();
+    });
+</script>
+
+
+
+

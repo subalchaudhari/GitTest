@@ -1,0 +1,14 @@
+@(employeeForm: Form[forms.EmployeeForm],id: Long)
+
+@import helper._
+
+
+@main() {
+
+	@views.html.common.errormsg(employeeForm.globalErrors())	
+	
+	@form(action = routes.EmployeeController.update_save(id)) {
+		@employee.form(employeeForm,Messages("employee.update"),true)	
+	}
+	
+}

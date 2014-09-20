@@ -1,0 +1,12 @@
+@(areaForm: Form[forms.AreaForm])
+
+@import helper._
+
+@main() {
+	
+	@views.html.common.errormsg(areaForm.globalErrors())	
+	
+	@form(action = routes.AreaController.create_save()) {
+		@area.form(areaForm,Messages("area.add"))		
+	}
+}

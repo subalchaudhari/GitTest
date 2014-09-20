@@ -1,0 +1,13 @@
+@(areaForm: Form[forms.AreaForm],id: Long)
+
+@import helper._
+
+
+@main() {
+
+	@views.html.common.errormsg(areaForm.globalErrors())	
+	
+	@form(action = routes.AreaController.update_save(id)) {
+		@area.form(areaForm,Messages("area.update"))
+	}
+}

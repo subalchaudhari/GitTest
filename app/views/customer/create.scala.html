@@ -1,0 +1,27 @@
+@(customerForm: Form[forms.CustomerForm])
+
+@import helper._
+
+
+@main() {
+
+	@views.html.common.errormsg(customerForm.globalErrors())	
+	
+	@form(action = routes.CustomerController.create_save()) {
+		@customer.form(customerForm,Messages("customer.add"))
+	}
+
+	<script type="text/javascript">
+		var on_area_change = function(event){
+			var form=$('form');
+			form.attr('action','@routes.CustomerController.on_c_area_change()');
+			form.attr('method','POST');
+			form.trigger('submit');
+		};		
+
+		$(function(){
+			$("#areaid").change(on_area_change);		
+		});
+	</script>
+	
+}

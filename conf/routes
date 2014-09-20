@@ -1,0 +1,165 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home/Login page
+GET     /                           controllers.Application.index()
+POST	/portal/login				controllers.Application.login()
+GET 	/portal/logout				controllers.Application.logout()
+
+
+# Welcome page
+GET		/portal/welcome				controllers.Welcome.index()
+
+# User
+GET 	/portal/users 				controllers.UserController.index()
+GET 	/portal/change/passwd		controllers.UserController.get_change_passwd()
+POST 	/portal/change/passwd		controllers.UserController.change_passwd()
+
+GET		/service/users				controllers.UserController.all()	
+GET		/service/user/:id 			controllers.UserController.get(id: Long)					
+POST	/service/user				controllers.UserController.create()
+PUT		/service/user/:id			controllers.UserController.update(id: Long)
+
+# Employee
+GET 	/portal/employees 			controllers.EmployeeController.index()
+GET 	/portal/create/employee 	controllers.EmployeeController.create_new()
+POST 	/portal/create/employee 	controllers.EmployeeController.create_save()
+GET 	/portal/update/employee/:id controllers.EmployeeController.update_get(id: Long)
+POST 	/portal/update/employee/:id controllers.EmployeeController.update_save(id: Long)
+GET 	/portal/delete/employee/:id controllers.EmployeeController.delete(id: Long)
+
+GET		/service/employees			controllers.EmployeeController.all()
+GET		/service/a/employees		controllers.EmployeeController.all_active()
+GET		/service/t/employees		controllers.EmployeeController.all_terminated()
+GET		/service/employee/:id		controllers.EmployeeController.get(id: Long)
+GET		/service/employee/a/:aid	controllers.EmployeeController.get_by_area(aid: Long)
+POST	/service/employee			controllers.EmployeeController.create()
+PUT		/service/employee/:id		controllers.EmployeeController.update(id: Long)
+
+# Area
+GET		/portal/areas				controllers.AreaController.index()
+GET 	/portal/create/area 		controllers.AreaController.create_new()
+POST 	/portal/create/area 		controllers.AreaController.create_save()
+GET 	/portal/update/area/:id 	controllers.AreaController.update_get(id: Long)
+POST 	/portal/update/area/:id 	controllers.AreaController.update_save(id: Long)
+GET 	/portal/delete/area/:id 	controllers.AreaController.delete(id: Long)
+
+GET		/service/areas				controllers.AreaController.all()	
+GET		/service/area/:id 			controllers.AreaController.get(id: Long)					
+POST	/service/area				controllers.AreaController.create()
+PUT		/service/area/:id			controllers.AreaController.update(id: Long)
+
+# Sub Area
+GET		/portal/subareas			controllers.SubAreaController.index()
+GET 	/portal/create/subarea 		controllers.SubAreaController.create_new()
+POST 	/portal/create/subarea 		controllers.SubAreaController.create_save()
+GET 	/portal/update/subarea/:id 	controllers.SubAreaController.update_get(id: Long)
+POST 	/portal/update/subarea/:id 	controllers.SubAreaController.update_save(id: Long)
+GET 	/portal/delete/subarea/:id 	controllers.SubAreaController.delete(id: Long)
+
+GET		/service/subareas			controllers.SubAreaController.all()	
+GET		/service/subarea/:id 		controllers.SubAreaController.get(id: Long)					
+POST	/service/subarea			controllers.SubAreaController.create()
+PUT		/service/subarea/:id		controllers.SubAreaController.update(id: Long)
+
+# Node
+GET		/portal/nodes				controllers.NodeController.index()
+GET 	/portal/create/node 		controllers.NodeController.create_new()
+POST 	/portal/create/node 		controllers.NodeController.create_save()
+GET 	/portal/update/node/:id 	controllers.NodeController.update_get(id: Long)
+POST 	/portal/update/node/:id 	controllers.NodeController.update_save(id: Long)
+GET 	/portal/delete/node/:id 	controllers.NodeController.delete(id: Long)
+
+GET		/service/nodes				controllers.NodeController.all()	
+GET		/service/node/:id 			controllers.NodeController.get(id: Long)					
+POST	/service/node				controllers.NodeController.create()
+PUT		/service/node/:id			controllers.NodeController.update(id: Long)
+
+# Amply
+GET		/portal/amplys				controllers.AmplyController.index()
+GET 	/portal/create/amply 		controllers.AmplyController.create_new()
+POST 	/portal/create/amply 		controllers.AmplyController.create_save()
+GET 	/portal/update/amply/:id 	controllers.AmplyController.update_get(id: Long)
+POST 	/portal/update/amply/:id 	controllers.AmplyController.update_save(id: Long)
+GET 	/portal/delete/amply/:id 	controllers.AmplyController.delete(id: Long)
+
+GET		/service/amplys				controllers.AmplyController.all()	
+GET		/service/amply/:id 			controllers.AmplyController.get(id: Long)					
+POST	/service/amply				controllers.AmplyController.create()
+PUT		/service/amply/:id			controllers.AmplyController.update(id: Long)
+
+# Price
+GET		/portal/prices				controllers.PriceController.index()
+GET 	/portal/create/price 		controllers.PriceController.create_new()
+POST 	/portal/create/price 		controllers.PriceController.create_save()
+GET 	/portal/update/price/:id 	controllers.PriceController.update_get(id: Long)
+POST 	/portal/update/price/:id 	controllers.PriceController.update_save(id: Long)
+GET 	/portal/delete/price/:id 	controllers.PriceController.delete(id: Long)
+
+GET		/service/prices				controllers.PriceController.all()	
+GET		/service/price/:id	 		controllers.PriceController.get(id: Long)					
+POST	/service/price				controllers.PriceController.create()
+PUT		/service/price/:id			controllers.PriceController.update(id: Long)
+#DELETE 	/service/price/:id 			controllers.PriceController.delete(id: Long)
+
+# Customer
+GET		/portal/customers			controllers.CustomerController.index()
+GET 	/portal/create/customer 	controllers.CustomerController.create_new()
+POST 	/portal/create/customer 	controllers.CustomerController.create_save()
+GET 	/portal/update/customer/:id controllers.CustomerController.update_get(id: Long)
+POST 	/portal/update/customer/:id controllers.CustomerController.update_save(id: Long)
+GET 	/portal/delete/customer/:id controllers.CustomerController.delete(id: Long)
+POST	/portal/c/a/create/customer	controllers.CustomerController.on_c_area_change()
+POST	/portal/c/a/update/customer/:id	controllers.CustomerController.on_u_area_change(id: Long)
+
+GET		/service/customers			controllers.CustomerController.all()	
+GET		/service/a/customers		controllers.CustomerController.all_active()	
+GET		/service/t/customers		controllers.CustomerController.all_terminated()	
+GET		/service/customer/:id		controllers.CustomerController.get(id: Long)					
+
+GET		/service/customer/al/:id	controllers.CustomerController.all_by_area(id: Long)					
+GET		/service/customer/aa/:id	controllers.CustomerController.all_active_by_area(id: Long)					
+GET		/service/customer/at/:id	controllers.CustomerController.all_terminated_by_area(id: Long)				
+POST	/service/customer			controllers.CustomerController.create()
+PUT		/service/customer/:id		controllers.CustomerController.update(id: Long)
+
+
+# Invoice
+GET		/portal/search/invoice		controllers.InvoiceController.search_get()
+POST	/portal/search/invoice		controllers.InvoiceController.search()
+POST	/portal/c/a/search/invoice	controllers.InvoiceController.on_area_change()
+POST	/portal/c/sa/search/invoice	controllers.InvoiceController.on_subarea_change()
+GET		/portal/generate/invoice	controllers.InvoiceController.generate_get()
+POST	/portal/generate/invoice	controllers.InvoiceController.generate()
+
+
+GET		/service/invoices			controllers.InvoiceController.all()	
+GET		/service/invoice/:id		controllers.InvoiceController.get(id: Long)					
+POST	/service/invoice			controllers.InvoiceController.create()
+PUT		/service/invoice/:id		controllers.InvoiceController.update(id: Long)
+
+# Payment
+GET 	/portal/payment/report 		controllers.PaymentController.report()
+GET 	/portal/payment/daily/report 		controllers.PaymentController.daily_report()
+GET 	/portal/payment/sa/daily/report 	controllers.PaymentController.daily_report_sa()
+GET 	/portal/invoice/report 		controllers.PaymentController.ireport()
+
+
+GET		/service/payments			controllers.PaymentController.all()	
+GET		/service/payment/:id		controllers.PaymentController.get(id: Long)					
+POST	/service/payment			controllers.PaymentController.create()
+PUT		/service/payment/:id		controllers.PaymentController.update(id: Long)
+POST	/service/do/payment			controllers.PaymentController.payment()
+
+GET 	/service/p/report/:aid/:year controllers.PaymentController.payment_report(aid: Long, year: Integer)
+GET 	/service/p/d/report/:month/:year controllers.PaymentController.daily_payment_report(month: Integer, year: Integer)
+GET 	/service/p/d/r/sa/:month/:year/:area controllers.PaymentController.daily_payment_report_sa(month: Integer, year: Integer, area: Long)
+GET 	/service/invoice/report/:year controllers.PaymentController.invoice_report(year: Integer)
+
+# Reports
+GET 	/service/report/c/a 		controllers.ReportController.customer_counts()
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
