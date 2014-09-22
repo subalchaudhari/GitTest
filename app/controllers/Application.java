@@ -21,7 +21,7 @@ public class Application extends Controller {
 	public static Result index() {
 		return ok(index.render(loginForm));
 	}
-	//login
+	
 	public static Result login(){
 		Form<UserForm> filledForm = loginForm.bindFromRequest();
 
